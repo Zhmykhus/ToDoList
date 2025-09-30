@@ -1,0 +1,50 @@
+﻿<Window x:Class="ToDoList.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ToDoList"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel>
+            <Label Content="ToDoList:)" HorizontalAlignment="Center" FontSize="23"/>
+            <Label>
+                <TextBlock Text="Выберите дату, чтобы добавить задачу или узнать, какие задачи назначены на эту дату" FontSize="14" TextWrapping="Wrap"/>
+            </Label>
+            <Calendar HorizontalAlignment="Left" x:Name="TaskCalendar" SelectedDate="{Binding SelectedDate}"/>
+            <Button Content="Показать все задачи" Click="ShowAllTasksButton_Click" HorizontalAlignment="Left"/>
+            <Label/>
+            <Label/>
+            <Label Content="Введите текст задачи" FontSize="14"/>
+            <TextBox x:Name="TaskTextBox" HorizontalAlignment="Left" Width="183" FontSize="20"/>
+            <Button Click="AddTaskButton_Click" Content="Добавить задачу/Сохранить задачу (Редактирование)" HorizontalAlignment="Left" FontSize="14"/>
+        </StackPanel>
+        <StackPanel Grid.Column="1">
+            <Label Content="Список задач" FontSize="20"/>
+            <ListView x:Name="TasksListView">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox Grid.Column="0" IsChecked="{Binding IsCompleted}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <TextBlock Grid.Column="1" Text="{Binding Title}" FontSize="14" VerticalAlignment="Center"  Margin="0,0,10,0"/>
+                            <TextBlock Grid.Column="2" Text="{Binding DateTask, StringFormat='dd.MM.yyyy'}" FontSize="12" Foreground="Gray" VerticalAlignment="Center"  Margin="10,0,0,0"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Content="Редактировать задачу (Необходимо сначала выбрать какую)" Click="EditTaskButton_Click"/>
+            <Button Content="Удалить задачу (Необходимо сначала выбрать какую)"  Click="DeleteTaskButton_Click"/>
+        </StackPanel>
+    </Grid>
+
+</Window>
