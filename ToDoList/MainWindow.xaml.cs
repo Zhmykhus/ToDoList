@@ -23,6 +23,10 @@ namespace ToDoList
         new Task { Id = 2, Title = "Мяу2", DateTask = new DateOnly(2025, 9, 28), IsCompleted = false },
     };
 
+        private ObservableCollection<Task> filteredTasks; 
+        private bool showAllTasks = true;
+        
+
 
         public DateOnly? SelectedDate { get; set; }
         public MainWindow()
@@ -32,6 +36,7 @@ namespace ToDoList
             TasksListView.ItemsSource = Tasks;
             TaskCalendar.SelectedDate = DateTime.Today;
             SelectedDate = DateOnly.FromDateTime(DateTime.Today);
+            ShowAllTasks();
 
         }
 
@@ -71,7 +76,15 @@ namespace ToDoList
                 return;
             }
 
+            
             var selectedTask = (Task)TasksListView.SelectedItem;
+
+            if(selectedTask.IsCompleted)
+            {
+                MessageBox.Show("Невозможно редактировать выполненную задачу");
+                return;
+                   
+            }
 
             TaskTextBox.Text = selectedTask.Title;
             TaskCalendar.SelectedDate = selectedTask.DateTask.ToDateTime(TimeOnly.MinValue);
@@ -98,7 +111,33 @@ namespace ToDoList
             }
         }
 
+        private void ShowAllTasks()
+        {
+            showAllTasks = true;
+            TasksListView.ItemsSource = Tasks;
+        }
 
+        private void ShowTasksForDate(DateOnly date)
+        {
+            showAllTasks = false;
+            filteredTasks = new ObservableCollection<Task>(
+            Tasks.Where(task => task.DateTask == date)
+            );
+            TasksListView.ItemsSource = filteredTasks;
+        }
+
+        private void TaskCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (TaskCalendar.SelectedDate != null)
+            {
+                var selectedDate = DateOnly.FromDateTime(TaskCalendar.SelectedDate.Value);
+                ShowTasksForDate(selectedDate);
+            }
+        }
+
+        private void ShowAllTasksButton_Click(object sender, RoutedEventArgs e)
+        {
+            ShowAllTasks();
+        }
     }
-}
 }

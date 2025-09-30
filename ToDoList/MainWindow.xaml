@@ -16,7 +16,7 @@
             <Label>
                 <TextBlock Text="Выберите дату, чтобы добавить задачу или узнать, какие задачи назначены на эту дату" FontSize="14" TextWrapping="Wrap"/>
             </Label>
-            <Calendar HorizontalAlignment="Left" x:Name="TaskCalendar" SelectedDate="{Binding SelectedDate}"/>
+            <Calendar HorizontalAlignment="Left" x:Name="TaskCalendar" SelectedDate="{Binding SelectedDate}" SelectedDatesChanged="TaskCalendar_SelectedDatesChanged"/>
             <Button Content="Показать все задачи" Click="ShowAllTasksButton_Click" HorizontalAlignment="Left"/>
             <Label/>
             <Label/>
