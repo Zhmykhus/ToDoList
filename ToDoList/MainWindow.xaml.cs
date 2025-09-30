@@ -63,6 +63,41 @@ namespace ToDoList
             TaskTextBox.Text = string.Empty;
         }
 
+        private void EditTaskButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (TasksListView.SelectedItem == null)
+            {
+                MessageBox.Show("Пожалуйста, выберите задачу для редактирования!");
+                return;
+            }
+
+            var selectedTask = (Task)TasksListView.SelectedItem;
+
+            TaskTextBox.Text = selectedTask.Title;
+            TaskCalendar.SelectedDate = selectedTask.DateTask.ToDateTime(TimeOnly.MinValue);
+            Tasks.Remove(selectedTask);
+
+        }
+
+        private void DeleteTaskButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (TasksListView.SelectedItem == null)
+            {
+                MessageBox.Show("Пожалуйста, выберите задачу для удаления!");
+                return;
+            }
+
+            var selectedTask = (Task)TasksListView.SelectedItem;
+
+            var result = MessageBox.Show($"Вы уверены, что хотите удалить задачу \"{selectedTask.Title}\"?",
+                "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                Tasks.Remove(selectedTask);
+            }
+        }
+
 
     }
 }
